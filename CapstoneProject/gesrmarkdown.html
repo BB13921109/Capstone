@@ -1,0 +1,176 @@
+<div>
+<div>
+<h1>Technical Description of Web App</h1>
+<p>The Medi-Sight Team</p>
+<h4>10 June, 2020</h4>
+</div>
+<div>
+<h1>Content</h1>
+<ol>
+<li>Brief Introduction</li>
+<li>Data Sources</li>
+<li>Tools Used</li>
+<li>Data Transformation
+<ul>
+<li>Main Libraries</li>
+<li>Graduate Employment Dataset</li>
+<li>Visualizations Part 1</li>
+<li>Graduates by institutions</li>
+<li>Visualizations Part 2</li>
+</ul>
+</li>
+<li>Shiny Application</li>
+<li>References</li>
+</ol>
+<div>
+<h2>1. Brief Introduction</h2>
+<blockquote>
+<p>This webpage will detail the process involved in producing the report, highlighting any key components and design features. It will also outline how the date was preprocessed and transformed to be compatible for R Shiny and displayed in R Markdown.</p>
+</blockquote>
+<div>
+<h5><strong>Navigating the website:</strong></h5>
+<p>&nbsp;<img style="font-size: 14px;" src="www/Navgif.gif" alt="" width="600" height="338" /></p>
+</div>
+</div>
+<div>
+<h2>2. Data Sources</h2>
+<p>The dataset used for this project is publicly available, and contains the precise medical information for 1000 patients who were tested for the presence of diabetes. There are 14 attributes present in the dataset, mostly pertaining to the contents of a particular bodily substance, which was deemed at least somewhat related to the incidence of diabetes.</p>
+<p>Each patient was classified as either diabetic, pre-diabetic, or non-diabetic - each of which is explained below. Note that this dataset does not differentiate between any different types of diabetes, and merely states whether a patient has diabetes at all. The dataset was saved in the CSV format for optimal processing in the R program.</p>
+<p>The <strong>main features</strong>&nbsp;of the Medi-Sight dashboard are:</p>
+<ul>
+<li>Summary of dataset</li>
+<li>Scatter plot of age and BMI</li>
+<li>Trends in Urea levels in patients</li>
+<li>Correlation of high blood pressure</li>
+<li>Co-variables LDL and HDL</li>
+</ul>
+</div>
+<div>
+<h2>3. Tools Used</h2>
+<p><img style="font-size: 14px;" src="www/technology.jpg" alt="" width="1028" height="398" /></p>
+</div>
+<div>
+<h2>4. Data Transformation</h2>
+<p>Firstly, we will work on <strong>graduate employment dataset</strong>.</p>
+<p>Steps of data transformation:</p>
+<p><img style="font-size: 14px;" src="www/transformation.png" alt="" width="999" height="238" /></p>
+<p>Multiple preprocessing operations were conducted to ensure the data is able to be analyzed effectively and efficiently. For unbiased and accurate results, it is essential to make our raw data more reliable, consistent, and clean. In our analysis, we have applied the following pre-processing methods in the R studio environment for different research cases:</p>
+<ul>
+<li>Data partitioning</li>
+<li>Data cleainging</li>
+<li>Discretization by binning</li>
+<li>Data Transformation</li>
+<li>Removing Outliers</li>
+<li>Normalization</li>
+<li>Standarization</li>
+</ul>
+<p>Secondly, we will work on <strong>graduates by institution</strong> dataset with the same same manipulations but adding <code>melt</code> function to make data tidy.</p>
+<p>For more information please refer to the datawrangling documentation.</p>
+<div>
+<h3>Main Libraries</h3>
+<div>
+<pre><code><br />library(shiny)<br />library(ggplot2)<br />library(dplyr)<br />library(tidyr)<br />library(DT)<br />library(knitr)<br />library(kableExtra)<br />library(ggthemes)<br />library(plotly)<br />library(rsconnect)<br />library(shinythemes)(plotly)</code></pre>
+</div>
+</div>
+<div>
+<h3>Medi-Sight Dataset</h3>
+<p>The dataset is first imported into R-Shiny for the visualizations. Documentation for the processing can be in the previous report.</p>
+<div>
+<pre><code>data_real &lt;- readRDS("data/Dataset-of-Diabetes.rds")]</code></pre>
+</div>
+<pre><code>## ID,No_pation,Gender,AGE,Urea,Cr,HbA1c,Cholesterol,TG,HDL,LDL,VLDL,BMI,CLASS
+## 502,17975,F,50,4.7,46,4.9,4.2,0.9,2.4,1.4,0.5,24,N
+## 735,34221,M,26,4.5,62,4.9,3.7,1.4,1.1,2.1,0.6,23,N
+## 420,47975,F,50,4.7,46,4.9,4.2,0.9,2.4,1.4,0.5,24,N
+## 680,87656,F,50,4.7,46,4.9,4.2,0.9,2.4,1.4,0.5,24,N
+## 504,34223,M,33,7.1,46,4.9,4.9,1,0.8,2,0.4,21,N
+## 634,34224,F,45,2.3,24,4,2.9,1,1,1.5,0.4,21,N</code></pre>
+</div>
+<div>
+<h3>Importing the tests</h3>
+<p>Next, the rest of the visualizations were imported, an example is shown below.</p>
+<div>
+<pre><code>data_c &lt;- readRDS("data/framedClasses.rds")<br />data_h2 &lt;- readRDS("data/preprocessed2.rds")<br />data_h4 &lt;- read.csv("data/preprocessed4.csv")<br />test1 &lt;- read.csv("data/anova_HDL_high_LDL_low.csv") #Low LDL and High HDL<br />test2 &lt;- read.csv("data/anova_HDL_low_LDL_high.csv") #high LDL and low HDL<br />test3 &lt;- read.csv("data/anova_HDL_low_LDL_low.csv") #Low LDL and low HDL<br />test4 &lt;- read.csv("data/anova_HDL_high_LDL_high.csv") #high LDL and High HDL<br />data_h5 &lt;- read.csv("data/preprocessed5.csv")data %&gt;%
+<br /></code></pre>
+</div>
+<table style="width: 414.516px; height: 268px; border-color: #808080;">
+<thead>
+<tr>
+<th style="width: 75px;">Marker</th>
+<th style="width: 39px;">DF</th>
+<th style="width: 62px;">Sum SQ</th>
+<th style="width: 75px;">Mean Sq</th>
+<th style="width: 51px;">F value</th>
+<th style="width: 63.5156px;">Pr(&gt;F)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="width: 75px;">HDL</td>
+<td style="width: 39px;">1</td>
+<td style="width: 62px;">0.026</td>
+<td style="width: 75px;">0.02609</td>
+<td style="width: 51px;">0.291</td>
+<td style="width: 63.5156px;">0.590</td>
+</tr>
+<tr>
+<td style="width: 75px;">LDL</td>
+<td style="width: 39px;">1</td>
+<td style="width: 62px;">0.081</td>
+<td style="width: 75px;">0.08098</td>
+<td style="width: 51px;">0.904</td>
+<td style="width: 63.5156px;">0.343</td>
+</tr>
+<tr>
+<td style="width: 75px;">HDL:LDL</td>
+<td style="width: 39px;">1</td>
+<td style="width: 62px;">0.103</td>
+<td style="width: 75px;">0.10303</td>
+<td style="width: 51px;">1.150</td>
+<td style="width: 63.5156px;">0.285</td>
+</tr>
+<tr>
+<td style="width: 75px;">Residiuals</td>
+<td style="width: 39px;">187</td>
+<td style="width: 62px;">16.756</td>
+<td style="width: 75px;">0.08960</td>
+<td style="width: 51px;">&nbsp;</td>
+<td style="width: 63.5156px;">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p>We are able to take a look at a summary of our dataset through an interactive pie chart. This gives an ability to check the importation of the dataset is correct and trending the expected way.</p>
+<div>
+<pre><code>output$agevconditionPieChart &lt;- renderPlot({<br /> colmap &lt;-<br /> c(<br /> # No Diabetes<br /> "#bdb2ff",<br /> # Pre-Diabetes<br /> "#ffc6ff",<br /> # Diabetes<br /> "#fdffb6",<br /> # ITE<br /> "#caffbf",<br /> # NAFA DEG<br /> "#a8dadc"<br /> )<br /> ggplot(class_counts(), aes(x="", y=n, fill=CLASS)) +<br /> geom_bar(stat="identity", width=1) +<br /> coord_polar("y", start=0) +<br /> theme_void() +<br /> labs(title = "Class Counts by Age", fill = "Class") +<br /> scale_fill_manual(values = c(colmap))<br /> })))</code></pre>
+</div>
+<p>We are now able to perform more complex visualizations that enhance the understanding of the dataset such as the scatterplot for the variables Age and BMI as predictors of diabetes.</p>
+<div>
+<pre><code>output$scatterplot &lt;- renderPlotly({<br /> filtered_data &lt;- subset(data_h4, Diebetic == input$scatterClass &amp; AGE &gt;= input$age[1] &amp; <br /> AGE &lt;= input$age[2] &amp; BMI &gt;= input$bmi[1] &amp; BMI &lt;= input$bmi[2])<br /> plot_ly(data = filtered_data, x = ~AGE, y = ~BMI, type = "scatter",<br /> mode = "markers", colors = c("#1f77b4"),<br /> marker = list(size = 8, opacity = 0.8)) %&gt;%<br /> layout(xaxis = list(title = "Age"),<br /> yaxis = list(title = "BMI"),<br /> title = "Interactive Scatter Plot",<br /> colorway = c("#1f77b4"))<br /> })))</code></pre>
+</div>
+<p>The same can be performed for the ANOVA Tables</p>
+<div>
+<pre>... <br />output$scatter_plot &lt;- renderPlot({<br /> data_h5$Diebetic &lt;- as.factor(data_h5$Diebetic)<br /> ggplot(data_h5, aes(x = LDL, y = HDL, color = Diebetic)) +<br /> geom_point() +<br /> scale_color_manual(values = c("red", "green"), labels = c("No", "Yes")) +<br /> labs(x = "LDL level", y = "HDL level") +<br /> ggtitle("Relation of LDL and HDL levels with Diabetes") +<br /> geom_vline(xintercept = input$ldl, linetype = "dashed", color = "blue") +<br /> geom_hline(yintercept = input$hdl, linetype = "dashed", color = "blue")<br /> })</pre>
+</div>
+<h3>&nbsp;Rendering the Visualizations</h3>
+<div>&nbsp;</div>
+<div>output$densityplot &lt;- renderPlotly({</div>
+</div>
+<div>
+<div>
+<pre> # filter data by diabetes class<br /> if (input$densityclass == "All") {<br /> filtered_data &lt;- data_h2<br /> } else if (input$densityclass == "Non-Diabetic") {<br /> filtered_data &lt;- data_h2 %&gt;% filter(Diebetic == 0)<br /> } else {<br /> filtered_data &lt;- data_h2 %&gt;% filter(Diebetic == 1)<br /> }<br /> <br /> # create density plot<br /> p &lt;- plot_ly(filtered_data, x = ~Urea, color = ~get(input$Urea_score), type = "histogram")<br /> <br /> # customize layout<br /> p %&gt;% layout(title = "Density Plot of Urea by Diabetes Class",<br /> xaxis = list(title = "Urea"),<br /> yaxis = list(title = "Density"),<br /> barmode = "overlay")<br /> })</pre>
+</div>
+</div>
+<div>
+<h2>7. References</h2>
+<p>For full codes please refer to the coding documentation attached to the presentation.</p>
+<p>[1] Dankwa-Mullan, I., Rivo, M., Sepulveda, M., Park, Y., Snowdon, J., &amp; Rhee, K. (2019). <em>Transforming diabetes care through artificial intelligence: the future is here</em>. Population health management, 22(3), 229-242.</p>
+<p>[2] <a href="https://www.cdc.gov/diabetes/prevention/about-prediabetes.html">Centers for Disease Control and Prevention</a>. (2023, April 4). About Prediabetes &amp; Type 2 Diabetes. National Diabetes Prevention Program.</p>
+<p>[3] <a href="https://doi.org/10.1007/s44230-022-00003-1"> Islam, L.</a>, Islam, M.R., Akter, S., Hasan, M., Moni, M., &amp; Uddin, N. (2022). Identifying Heterogeneity of Diabetics Mellitus Based on the Demographical and Clinical Characteristics. Hum-Cent Intell Syst 2, 44&ndash;54.</p>
+<p>[4] <a href="https://doi.org/10.1186/s40537-019-0175-6">Sneha, N.</a>, &amp; Gangil, T. (2019). Analysis of diabetes mellitus for early prediction using optimal features selection. J Big Data 6, 13. .</p>
+<p>[5] <a href="https://doi.org/10.1186/s12967-019-02156-3">Zhao, J.</a>, , Zhang, Y., Wei, F., Song, J., Cao, Z., Chen C., Zhang K., Feng, S., Wang, Y., &amp; Li, W. (2019). Triglyceride is an independent predictor of type 2 diabetes among middle-aged and older adults: a prospective study with 8-year follow-ups in two cohorts. J Transl Med 17, 403.</p>
+<p>[6] Fink, R. I., Kolterman, O. G., Griffin, J., &amp; Olefsky, J. M. (1983). Mechanisms of insulin resistance in aging. The Journal of clinical investigation, 71(6), 1523-1535.</p>
+</div>
+</div>
+</div>
+</div>
+<p>z</p>
